@@ -6,7 +6,7 @@
 #    By: clundber < clundber@student.hive.fi>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/24 10:58:29 by clundber          #+#    #+#              #
-#    Updated: 2025/02/24 11:10:08 by clundber         ###   ########.fr        #
+#    Updated: 2025/02/24 14:41:10 by clundber         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,8 @@ NAME = inception
 
 #------------- COMMANDS ------#
 
-# env:
-#	./make_env.sh
+env:
+	./make_env.sh
 
 all:
 	@echo "$(COLOUR_BLUE)building $(NAME)$(COLOUR_END)"
