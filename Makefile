@@ -6,7 +6,7 @@
 #    By: clundber < clundber@student.hive.fi>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/24 10:58:29 by clundber          #+#    #+#              #
-#    Updated: 2025/02/24 14:43:26 by clundber         ###   ########.fr        #
+#    Updated: 2025/02/24 14:47:09 by clundber         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,12 +24,9 @@ env:
 	./make_env.sh
 
 all:
-	@echo "$(COLOUR_BLUE)building $(NAME)$(COLOUR_END)"
 	@docker-compose -f ./srcs/docker-compose.yml up -d --build
-	@echo "$(COLOUR_GREEN)$(NAME) built successfully$(COLOUR_END)"
 	
 down:
-	@echo "$(COLOUR_GREEN)shutting down $(NAME)$(COLOUR_END)"
 	@docker-compose -f ./srcs/docker-compose.yml down
 
 .PHONY: all down
