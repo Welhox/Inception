@@ -1,0 +1,6 @@
+
+FROM alpine:3.21
+
+RUN apt update && apt upgrade && apt install -y nginx
+
+cmd ["nginx", "-g", "daemon off;"]
