@@ -5,4 +5,4 @@ RUN apk update && apk upgrade && apk add --no-cache nginx
 
 EXPOSE 443
 
-cmd ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]

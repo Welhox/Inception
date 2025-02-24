@@ -2,7 +2,7 @@ services:
   nginx:
     build:
       context:  .
-      dockerfile: nginx/Dockerfile
+      dockerfile: requirements/nginx/Dockerfile
     container_name: nginx
     image:  nginx
     # depends_on:
@@ -15,7 +15,7 @@ services:
       # - wp-volume:/var/www/
     networks:
       - inception
-    resstart: always
+    restart: always
 
 networks:
   inception:
