@@ -1,6 +1,8 @@
 
 FROM alpine:3.21
 
-RUN apt update && apt upgrade && apt install -y nginx
+RUN apk update && apk upgrade && apk add --no-cache nginx
+
+EXPOSE 443
 
 cmd ["nginx", "-g", "daemon off;"]
