@@ -6,7 +6,7 @@
 #    By: clundber < clundber@student.hive.fi>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/24 10:58:29 by clundber          #+#    #+#              #
-#    Updated: 2025/02/24 14:47:09 by clundber         ###   ########.fr        #
+#    Updated: 2025/02/24 14:52:52 by clundber         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,9 @@ COLOUR_BLUE=\033[0;34m
 COLOUR_END=\033[0m
 
 # ------------ PROJECT -------#
-NAME = inception
+name = inception
+
+.DEFAULT_GOAL = all
 
 #------------- COMMANDS ------#
 
