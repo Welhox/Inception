@@ -6,7 +6,7 @@
 #    By: clundber < clundber@student.hive.fi>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/24 10:58:29 by clundber          #+#    #+#              #
-#    Updated: 2025/02/24 14:52:52 by clundber         ###   ########.fr        #
+#    Updated: 2025/03/03 15:00:41 by clundber         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,9 @@ name = inception
 
 env:
 	./make_env.sh
+
+ssl:
+	mkcert -key-file srcs/requirements/nginx/tools/clundber.42.fr.key -cert-file srcs/requirements/nginx/tools/clundber.42.fr.crt https://clundber.42.fr
 
 all:
 	@docker-compose -f ./srcs/docker-compose.yml up -d --build
