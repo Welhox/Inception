@@ -1,0 +1,12 @@
+things needed in VM:
+
+docker
+docker compose
+ssh
+mkcert
+curl
+
+sudo vim /etc/hosts
+    127.0.0.1 clundber.42.fr localhost
+    127.0.1.1 clundber.42.fr
+ 
