@@ -10,12 +10,36 @@ services:
     ports:
       - "443:443"
     volumes:
-      - ./requirements/nginx/conf/:/etc/nginx/
+      - ./requirements/nginx/conf/:/etc/nginx/ #this makes the conf file available inside the dockerfile
       - ./requirements/nginx/tools:/etc/nginx/ssl/ #this makes the ssl certificates available inside nginx
       # - wp-volume:/var/www/
     networks:
       - inception
     restart: always
+
+  mariadb:
+    build:
+      context: .
+      dockerfile: requirements/mariadb/Dockerfile
+    container_name: mariadb
+    image: mariadb
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-volume:/var/lib/mysql
+    networks:
+      - inception
+    restart: always
+    env_file:
+      - .env
+
+volumes:
+  db-volume:
+    name: mariadb
+    driver_opts:
+      o:  bind
+      type: none
+      device: /home/${USER}/data/mariadb
 
 networks:
   inception:

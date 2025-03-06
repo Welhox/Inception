@@ -6,7 +6,7 @@
 #    By: casimirri <clundber@student.hive.fi>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/24 10:58:29 by clundber          #+#    #+#              #
-#    Updated: 2025/03/05 14:17:12 by casimirri        ###   ########.fr        #
+#    Updated: 2025/03/06 14:05:23 by casimirri        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ name = inception
 #------------- COMMANDS ------#
 
 all:
+	@bash srcs/requirements/mariadb/tools/make_dirs.sh
 	@docker compose -f ./srcs/docker-compose.yml up -d --build
 
 env:
