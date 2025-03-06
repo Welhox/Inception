@@ -5,14 +5,14 @@ services:
       dockerfile: requirements/nginx/Dockerfile
     container_name: nginx
     image:  nginx
-    # depends_on:
-    #   - wordpress
+    depends_on:
+      - wordpress
     ports:
       - "443:443"
     volumes:
       - ./requirements/nginx/conf/:/etc/nginx/ #this makes the conf file available inside the dockerfile
       - ./requirements/nginx/tools:/etc/nginx/ssl/ #this makes the ssl certificates available inside nginx
-      # - wp-volume:/var/www/
+      - wordpress-volume:/var/www/
     networks:
       - inception
     restart: always
@@ -33,6 +33,22 @@ services:
     env_file:
       - .env
 
+  wordpress:
+    build:
+      context: .
+      dockerfile: requirements/wordpress/Dockerfile
+    container_name: wordpress
+    image: wordpress
+    depends_on:
+      - mariadb
+    volumes:
+      - wordpress-volume:/var/lib/mysql
+    networks:
+      - inception
+    restart: always
+    env_file:
+      - .env
+
 volumes:
   mariadb-volume:
     name: mariadb
@@ -41,6 +57,14 @@ volumes:
       o:  bind
       type: none
       device: /home/${USER}/data/mariadb
+
+  wordpress-volume:
+    name: wordpress
+    driver: local
+    driver_opts:
+      o:  bind
+      type: none
+      device: /home/${USER}/data/wordpress
 
 networks:
   inception:
