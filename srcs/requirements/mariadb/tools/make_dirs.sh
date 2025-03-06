@@ -16,6 +16,7 @@ for dir in "mariadb" "wordpress"; do
 done
 
 # Set correct permissions for MariaDB
+# sudo chmod 777 "$DATA_DIR/mariadb"
 sudo chown -R 999:999 "$DATA_DIR/mariadb"
 sudo chmod -R 750 "$DATA_DIR/mariadb"
 

@@ -23,11 +23,11 @@ RUN mysql_install_db --user=mysql --datadir=/var/lib/mysql
 
 # COPY requirements/mariadb/conf/create_db.sh .
 # RUN sh create_db.sh && rm create_db.sh
-# USER mysql
+USER mysql
 
 
 # Configure MariaDB to start
-CMD ["mysqld", "--user=mysql", "--datadir=/home/${USER}/data/mariadb", "--skip-networking=0", "--default-authentication-plugin=mysql_native_password"]
+CMD ["mysqld", "--user=mysql", "--datadir=/var/lib/mysql", "--skip-networking=0", "--default-authentication-plugin=mysql_native_password"]
 
 # Expose MariaDB port
 EXPOSE 3306

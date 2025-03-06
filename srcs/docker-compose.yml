@@ -26,7 +26,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - db-volume:/var/lib/mysql
+      - mariadb-volume:/var/lib/mysql
     networks:
       - inception
     restart: always
@@ -34,8 +34,9 @@ services:
       - .env
 
 volumes:
-  db-volume:
+  mariadb-volume:
     name: mariadb
+    driver: local
     driver_opts:
       o:  bind
       type: none
