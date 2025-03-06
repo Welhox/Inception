@@ -38,6 +38,11 @@ RUN chown -R www-data:www-data /var/www/
 COPY requirements/wordpress/tools/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
+# copy config file and script to fill it
+COPY requirements/wordpress/conf/wp-config.php /var/www/
+COPY requirements/wordpress/tools/setup-wp-config.sh /var/www/
+RUN chmod +x /var/www/setup-wp-config.sh
+
 # Expose PHP-FPM port
 EXPOSE 9000
 
