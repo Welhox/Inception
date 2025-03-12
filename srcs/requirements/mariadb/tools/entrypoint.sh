@@ -2,12 +2,13 @@
 #!/bin/sh
 
 mkdir -p /run/mysqld /var/lib/mysql /var/log/mysql && chown -R mysql:mysql /run/mysqld /var/lib/mysql /var/log/mysql
-# chmod 755 /run/mysqld
+chmod 755 /run/mysqld
 # chown -R mysql:mysql /run/mysqld /var/lib/mysql /var/log/mysql
 
 #initialize the database
-mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
-
+if [ ! -d "/var/lib/mysql/mysql" ]; then
+    mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+fi
 #setup user rights
 mysqld --user=mysql --bootstrap << EOF
 USE mysql;
