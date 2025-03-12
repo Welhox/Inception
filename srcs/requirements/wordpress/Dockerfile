@@ -14,10 +14,16 @@ RUN apk add --no-cache \
     php82-exif \
     php82-pdo_mysql \
     php82-opcache \
-    mariadb-client \
+    php82-openssl \
+    php82-json \
+    php82-dom \
+    php82-fileinfo \
+    php82-redis \
+    php82-phar \
+    # mariadb-client \
     curl \
     tar \
-    nginx \
+    # nginx \
     supervisor
 
 # create www-data user and group
