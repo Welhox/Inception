@@ -1,42 +1,30 @@
+
 #!/bin/sh
-set -e
 
-DATA_DIR="/var/lib/mysql"
-INIT_FLAG="${DATA_DIR}/.init_done"
+mkdir -p /run/mysqld /var/lib/mysql /var/log/mysql && chown -R mysql:mysql /run/mysqld /var/lib/mysql /var/log/mysql
+# chmod 755 /run/mysqld
+# chown -R mysql:mysql /run/mysqld /var/lib/mysql /var/log/mysql
 
-# Ensure proper ownership of MySQL files
-chown -R mysql:mysql ${DATA_DIR} /run/mysqld
+#initialize the database
+mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
 
-# If the database directory is empty, initialize it
-if [ ! -d "$DATA_DIR/mysql" ]; then
-    echo "Initializing MariaDB data directory..."
-    mysql_install_db --user=mysql --datadir=${DATA_DIR}
-fi
+#setup user rights
+mysqld --user=mysql --bootstrap << EOF
+USE mysql;
+FLUSH PRIVILEGES;
+DELETE FROM     mysql.user WHERE User='';
+# DELETE FROM     mysql.user WHERE User='wordpress_user';
 
-# Start MariaDB in the background
-mysqld --user=mysql --datadir=${DATA_DIR} --skip-networking &
-MARIADB_PID=$!
+DROP DATABASE IF EXISTS test;
+DELETE FROM mysql.db WHERE Db='test';
+DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
 
-# Wait for MariaDB to be ready
-echo "Waiting for MariaDB to be ready..."
-until mariadb -u root -e "SELECT 1" >/dev/null 2>&1; do
-    sleep 2
-done
+ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_ROOT}';
+CREATE DATABASE ${DB_NAME} CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE USER '${DB_USER}'@'%' IDENTIFIED by '${DB_PASS}';
+GRANT ALL PRIVILEGES ON '${DB_NAME}'.* TO '${DB_USER}'@'%';
+FLUSH PRIVILEGES;
+EOF
 
-# Run init.sql only if it hasn't been executed before
-if [ ! -f "$INIT_FLAG" ]; then
-    echo "Running initialization script..."
-    mariadb -u root < /docker-entrypoint-initdb.d/init.sql
-    touch "$INIT_FLAG"
-    echo "Initialization complete!"
-else
-    echo "Database already initialized. Skipping init.sql"
-fi
-
-# Stop the background MariaDB process
-kill "$MARIADB_PID"
-wait "$MARIADB_PID"
-
-# Start MariaDB normally in the foreground
-exec mysqld --user=mysql --datadir=${DATA_DIR}
+exec mysqld --defaults-file=/etc/my.cnf.d/mariadb-server.cnf
 
