@@ -23,8 +23,8 @@ COPY requirements/mariadb/conf/mariadb-server.cnf /etc/my.cnf.d/mariadb-server.c
 RUN chmod +x /entrypoint.sh
 RUN chmod +x /etc/my.cnf.d/mariadb-server.cnf
 
-# Set entrypoint
-ENTRYPOINT ["sh", "/entrypoint.sh"]
-
 # Expose MariaDB port
 EXPOSE 3306
+
+# Set entrypoint
+ENTRYPOINT ["sh", "/entrypoint.sh"]

@@ -12,7 +12,7 @@
 #     sleep 3
 # done
 
-while ! mariadb -h$DB_HOST -u$DB_USER -p$DB_PASS $DB_NAME >/dev/null; do
+while ! mariadb -h$DB_HOST -u$DB_USER -p$DB_PASS >/dev/null; do
     echo "Waiting for MariaDB to be available..."
     sleep 3
 done
@@ -24,8 +24,8 @@ done
 # fi
 
 # Run the wp-config setup script
-sh /var/www/wp-config-create.sh
-# sh /var/www/setup-wp-config.sh
+# sh /var/www/wp-config-create.sh
+sh /var/www/setup-wp-config.sh
 
 # Start PHP-FPM
 exec php-fpm82 -F

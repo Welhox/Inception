@@ -35,13 +35,13 @@ RUN addgroup -S nginx && adduser -S nginx -G nginx || true
 # create a symlink for php
 RUN ln -s /usr/bin/php82 /usr/bin/php
 
-# # Download and extract WordPress
-# RUN curl -o wordpress.tar.gz https://wordpress.org/latest.tar.gz && \
-#     tar -xzf wordpress.tar.gz --strip-components=1 && \
-#     rm wordpress.tar.gz
+# Download and extract WordPress
+RUN curl -o wordpress.tar.gz https://wordpress.org/latest.tar.gz && \
+    tar -xzf wordpress.tar.gz --strip-components=1 && \
+    rm wordpress.tar.gz
 
-# # Fix permissions
-# RUN chown nginx:nginx /var/www/
+# Fix permissions
+# RUN chown -R nginx:nginx /var/www/
 # RUN chown -R www-data:www-data /var/www/
 
 # create and copy conf
@@ -53,11 +53,11 @@ COPY requirements/wordpress/tools/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 # copy config file and script to fill it
-COPY requirements/wordpress/tools/wp-config-create.sh /var/www/
-RUN chmod +x /var/www/wp-config-create.sh
-# COPY requirements/wordpress/conf/wp-config.php /var/www/
-# COPY requirements/wordpress/tools/setup-wp-config.sh /var/www/
-# RUN chmod +x /var/www/setup-wp-config.sh
+# COPY requirements/wordpress/tools/wp-config-create.sh /var/www/
+# RUN chmod +x /var/www/wp-config-create.sh
+COPY requirements/wordpress/conf/wp-config.php /var/www/
+COPY requirements/wordpress/tools/setup-wp-config.sh /var/www/
+RUN chmod +x /var/www/setup-wp-config.sh
 
 # Expose PHP-FPM port
 EXPOSE 9000
