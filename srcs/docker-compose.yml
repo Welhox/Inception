@@ -12,7 +12,7 @@ services:
     volumes:
       - ./requirements/nginx/conf/:/etc/nginx/ #this makes the conf file available inside the dockerfile
       - ./requirements/nginx/tools:/etc/nginx/ssl/ #this makes the ssl certificates available inside nginx
-      - wordpress-volume:/var/www/
+      - wordpress-volume:/var/www/html/
     networks:
       - inception
     restart: always
@@ -46,8 +46,8 @@ services:
     networks:
       - inception
     restart: always
-    # ports:
-    #   - "9000:9000"
+    ports:
+      - "9000:9000"
     env_file:
       - .env
 
