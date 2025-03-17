@@ -17,15 +17,30 @@ while ! mariadb -h$DB_HOST -u$DB_USER -p$DB_PASS >/dev/null; do
     sleep 3
 done
 
-# Set up WordPress if not already installed
-# if [ ! -f /var/www/wp-config.php ]; then
-#     echo "Setting up wp-config.php..."
-#     wp config create --dbname="$DB_NAME" --dbuser="$DB_USER" --dbpass="$DB_PASS" --dbhost="$DB_HOST" --allow-root
-# fi
+
 
 # Run the wp-config setup script
 # sh /var/www/wp-config-create.sh
 sh /var/www/setup-wp-config.sh
+
+
+# Install WordPress if it's not installed
+if ! wp core is-installed --allow-root --path=/var/www/html; then
+    echo "Installing WordPress..."
+    wp core install --allow-root \
+        --url="http://$DOMAIN_NAME" \
+        --title="$WP_TITLE" \
+        --admin_user="$ADM_WP_NAME" \
+        --admin_password="$ADM_WP_PASS" \
+        --admin_email="$ADM_WP_EMAIL" \
+        --path=/var/www/html
+    
+    # Create a regular WordPress user
+    wp user create "$WP_USERNAME" "$WP_USEREMAIL" --role=editor --user_pass="$WP_USERPASS" --allow-root --path=/var/www/html
+fi
+
+
+# wp core install 
 
 # Start PHP-FPM
 exec php-fpm82 -F

@@ -49,16 +49,22 @@ RUN chown -R nginx:nginx /var/www/html/
 
 
 # Copy entrypoint script and conf file
-COPY requirements/wordpress/conf/www.conf etc/php82/php-fpm.d/www.conf
+COPY requirements/wordpress/conf/www.conf /etc/php82/php-fpm.d/www.conf
 COPY requirements/wordpress/tools/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 # copy config file and script to fill it
 # COPY requirements/wordpress/tools/wp-config-create.sh /var/www/
 # RUN chmod +x /var/www/wp-config-create.sh
+
 COPY requirements/wordpress/conf/wp-config.php /var/www/
 COPY requirements/wordpress/tools/setup-wp-config.sh /var/www/
 RUN chmod +x /var/www/setup-wp-config.sh
+
+# Install WP-CLI
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+    chmod +x wp-cli.phar && \
+    mv wp-cli.phar /usr/local/bin/wp
 
 # Expose PHP-FPM port
 EXPOSE 9000

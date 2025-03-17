@@ -10,7 +10,7 @@ services:
     ports:
       - "443:443"
     volumes:
-      - ./requirements/nginx/conf/:/etc/nginx/ #this makes the conf file available inside the dockerfile
+      - ./requirements/nginx/conf/:/etc/nginx/ #this makes the conf file available inside the dockerfile  might not be allowed wiht more volumes
       - ./requirements/nginx/tools:/etc/nginx/ssl/ #this makes the ssl certificates available inside nginx
       - wordpress-volume:/var/www/html/
     networks:
