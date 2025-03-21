@@ -30,7 +30,6 @@ RUN apk update && apk add --no-cache \
 # create www-data user and group
 RUN adduser -S www-data -G www-data || true
 
-
 # create and copy conf
 RUN mkdir -p /run/php/ /var/www/html
 
@@ -44,18 +43,13 @@ RUN curl -o wordpress.tar.gz https://wordpress.org/wordpress-6.6.2.tar.gz && \
     tar -xzf wordpress.tar.gz --strip-components=1 && \
     rm wordpress.tar.gz
 
-
 # Fix permissions
 RUN chown -R www-data:www-data /var/www/html/
-
 
 # Copy entrypoint script and conf file
 COPY requirements/wordpress/conf/www.conf /etc/php82/php-fpm.d/www.conf
 COPY requirements/wordpress/tools/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
-
-COPY requirements/wordpress/tools/setup-wp-config.sh /var/www/
-RUN chmod +x /var/www/setup-wp-config.sh
 
 # Install WP-CLI
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
