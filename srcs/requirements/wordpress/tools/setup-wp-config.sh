@@ -30,8 +30,8 @@
 # Define WordPress installation directory
 WP_PATH="/var/www/html"
 
-# Ensure the directory exists
-mkdir -p "$WP_PATH"
+# # Ensure the directory exists
+# mkdir -p "$WP_PATH"
 
 # Change to the WordPress directory
 cd "$WP_PATH" || exit 1
@@ -52,15 +52,16 @@ rm -f wp-config.php
 
 # Install WordPress
 /usr/local/bin/wp core install \
-  --url="https://${WP_HOST}" \
-  --title="${WP_TITLE}" \
-  --admin_user="${ADM_WP_NAME}" \
-  --admin_password="${ADM_WP_PASS}" \
-  --admin_email="${ADM_WP_EMAIL}"
+--url="https://${WP_HOST}" \
+--title="${WP_TITLE}" \
+--admin_user="${ADM_WP_NAME}" \
+--admin_password="${ADM_WP_PASS}" \
+--admin_email="${ADM_WP_EMAIL}" \
+&& wp theme install oceanic --activate
 
 # Create additional WordPress user
 /usr/local/bin/wp user create "${WP_USERNAME}" "${WP_USEREMAIL}" \
-  --role="editor" --user_pass="${WP_USERPASS}"
+--role="editor" --user_pass="${WP_USERPASS}"
 
 # Set appropriate ownership and permissions
 chown -R www-data:www-data "$WP_PATH"
