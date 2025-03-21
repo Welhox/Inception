@@ -28,10 +28,6 @@ RUN apk update && apk add --no-cache \
     tar
 
 # create www-data user and group
-# RUN addgroup -S nginx && adduser -S nginx -G nginx || true
-# RUN addgroup -S www-data && adduser -S www-data -G www-data || true
-
-# RUN if ! id "www-data" &>/dev/null; then addgroup -S www-data && adduser -S www-data -G www-data; fi
 RUN adduser -S www-data -G www-data || true
 
 
@@ -44,18 +40,12 @@ WORKDIR /var/www/html
 # create a symlink for php
 RUN ln -s /usr/bin/php82 /usr/bin/php
 
-# Download and extract WordPress
-# RUN curl -o wordpress.tar.gz https://wordpress.org/latest.tar.gz && \
-#     tar -xzf wordpress.tar.gz --strip-components=1 && \
-#     rm wordpress.tar.gz
-
 RUN curl -o wordpress.tar.gz https://wordpress.org/wordpress-6.6.2.tar.gz && \
     tar -xzf wordpress.tar.gz --strip-components=1 && \
     rm wordpress.tar.gz
 
 
 # Fix permissions
-# RUN chown -R nginx:nginx /var/www/html/
 RUN chown -R www-data:www-data /var/www/html/
 
 
@@ -64,11 +54,6 @@ COPY requirements/wordpress/conf/www.conf /etc/php82/php-fpm.d/www.conf
 COPY requirements/wordpress/tools/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# copy config file and script to fill it
-# COPY requirements/wordpress/tools/wp-config-create.sh /var/www/
-# RUN chmod +x /var/www/wp-config-create.sh
-
-# COPY requirements/wordpress/conf/wp-config.php /var/www/
 COPY requirements/wordpress/tools/setup-wp-config.sh /var/www/
 RUN chmod +x /var/www/setup-wp-config.sh
 
