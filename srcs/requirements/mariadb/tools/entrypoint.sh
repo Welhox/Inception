@@ -31,6 +31,4 @@ GRANT ALL PRIVILEGES ON wordpress.* TO '${DB_USER}'@'%';
 FLUSH PRIVILEGES;
 EOF
 
-
 mysqld --defaults-file=/etc/my.cnf.d/mariadb-server.cnf
-

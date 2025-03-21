@@ -41,8 +41,6 @@ services:
     image: wordpress
     depends_on:
       - mariadb
-    # volumes:
-    #   - wordpress-volume:/var/lib/mysql
     volumes:
       - wordpress-volume:/var/www/html/
     networks:
