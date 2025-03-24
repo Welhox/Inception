@@ -1,13 +1,14 @@
 #!/bin/sh
 
-while ! mariadb -h$DB_HOST -u$DB_USER -p$DB_PASS >/dev/null; do
-    echo "Waiting for MariaDB to be available..."
+# while ! mariadb -h$DB_HOST -u$DB_USER -p$DB_PASS >/dev/null; do
+#     echo "Waiting for MariaDB to be available..."
+#     sleep 3
+# done
+
+while ! mariadb -h"$DB_HOST" -u"$DB_USER" -p"$DB_PASS" -e "SHOW DATABASES;" | grep -q "$DB_NAME"; do
+    echo "Waiting for MariaDB to be fully initialized..."
     sleep 3
 done
-
-chown -R www-data:www-data /var/www/html
-chmod -R 755 /var/www/html
-
 
 # Define WordPress installation directory
 WP_PATH="/var/www/html"
@@ -51,6 +52,10 @@ wp core install --allow-root \
 
     # Create a regular WordPress user
     wp user create "$WP_USERNAME" "$WP_USEREMAIL" --role=editor --user_pass="$WP_USERPASS" --allow-root --path=/var/www/html
+
+
+chown -R www-data:www-data /var/www/html
+chmod -R 755 /var/www/html
 
 # Start PHP-FPM
 exec php-fpm82 -F
