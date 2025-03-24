@@ -1,13 +1,13 @@
 #!/bin/bash
 
 LOGIN="clundber"
-WP_USER="normy"
-WP_ADM_USER="boss"
+WP_USER=""
+WP_ADM_USER=""
 
-DB_PW="42"
-DB_ROOT_PW="42"
-WP_USERPASS="42"
-ADM_WP_PASS="42"
+DB_PW=""
+DB_ROOT_PW=""
+WP_USERPASS=""
+ADM_WP_PASS=""
 
 echo "DOMAIN_NAME=clundber.42.fr" > srcs/.env
 echo "CERT_=./requirements/nginx/tools/clundber.42.fr.crt" >> srcs/.env
