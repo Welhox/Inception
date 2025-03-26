@@ -1,5 +1,5 @@
 
-# 🏗️ Inception - Dockerized WordPress Setup  
+# 🏗️ Inception - Dockerized WordPress Setup using Docker-compose
 
 ## 📌 Introduction  
 
