@@ -1,4 +1,3 @@
 .env
-clundber.42.fr.crt
-clundber.42.fr.key
-commands.txt
+*.crt
+*.key

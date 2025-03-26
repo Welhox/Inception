@@ -7,6 +7,12 @@ mkcert
 curl
 
 sudo vim /etc/hosts
-    127.0.0.1 clundber.42.fr localhost
-    127.0.1.1 clundber.42.fr
+    127.0.0.1 login.42.fr localhost
+    127.0.1.1 login.42.fr
  
+checking the database
+
+docker exec -it <container_name> mariadb -u root -p
+SHOW databases;
+USE wordpress;
+SHOW databases;

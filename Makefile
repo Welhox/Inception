@@ -6,7 +6,7 @@
 #    By: casimirri <clundber@student.hive.fi>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/24 10:58:29 by clundber          #+#    #+#              #
-#    Updated: 2025/03/24 14:36:08 by casimirri        ###   ########.fr        #
+#    Updated: 2025/03/26 11:17:59 by casimirri        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,17 +32,30 @@ check-env:
 	fi
 
 check-ssl:
-	@if [ ! -f srcs/requirements/nginx/tools/clundber.42.fr.crt ] || [ ! -f srcs/requirements/nginx/tools/clundber.42.fr.key ]; then \
-		echo "$(COLOUR_RED)Error: SSL certificate or key is missing! Run 'make ssl' to generate them.$(COLOUR_END)"; \
+	@if [ -f srcs/.env ]; then \
+		DOMAIN_NAME=$$(grep '^DOMAIN_NAME=' srcs/.env | cut -d '=' -f2); \
+		if [ ! -f srcs/requirements/nginx/tools/$${DOMAIN_NAME}.crt ] || [ ! -f srcs/requirements/nginx/tools/$${DOMAIN_NAME}.key ]; then \
+			echo "$(COLOUR_RED)Error: SSL certificate or key is missing! Run 'make ssl' to generate them.$(COLOUR_END)"; \
+			exit 1; \
+		fi \
+	else \
+		echo "$(COLOUR_RED)Error: .env file not found!$(COLOUR_END)"; \
 		exit 1; \
 	fi
+
 
 env:
 	./make_env.sh
 
 ssl:
-	mkcert -key-file srcs/requirements/nginx/tools/clundber.42.fr.key -cert-file srcs/requirements/nginx/tools/clundber.42.fr.crt https://clundber.42.fr
-	
+	@if [ -f srcs/.env ]; then \
+		DOMAIN_NAME=$$(grep '^DOMAIN_NAME=' srcs/.env | cut -d '=' -f2); \
+		mkcert -key-file srcs/requirements/nginx/tools/$${DOMAIN_NAME}.key -cert-file srcs/requirements/nginx/tools/$${DOMAIN_NAME}.crt https://$${DOMAIN_NAME}; \
+	else \
+		echo "$(COLOUR_RED)Error: .env file not found!$(COLOUR_END)"; \
+		exit 1; \
+	fi
+
 down:
 	@docker compose -f ./srcs/docker-compose.yml down
 
